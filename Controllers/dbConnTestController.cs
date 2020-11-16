@@ -24,7 +24,7 @@ namespace SqlClientExample.Controllers
             string connectionString = @"Data Source=bikestoresdb.c3raologixkl.us-east-1.rds.amazonaws.com;Initial Catalog=SampleDB;User ID=admin;Password=abcd1234";
             SqlConnection conn = new SqlConnection(connectionString);
 
-            string queryString = "Select * From Customer";
+            string queryString = "DELETE FROM Customers WHERE Id = @ID";
 
             SqlCommand command = new SqlCommand( queryString, conn);
             conn.Open();
@@ -78,6 +78,52 @@ namespace SqlClientExample.Controllers
             
         } */
 
-       
+        [HttpDelete("Delete/{id}")]
+        public string DeleteYoSelf(string Id){
+
+            var connectionString = @"Data Source=bikestoresdb.c3raologixkl.us-east-1.rds.amazonaws.com;Initial Catalog=SampleDB;User ID=admin;Password=abcd1234";
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            string thisIsMuhQuery = "Delete from Customer where Id = @ID";
+            SqlCommand command = new SqlCommand(thisIsMuhQuery, conn);
+
+            command.Parameters.AddWithValue("@ID", int.Parse(Id));
+
+            conn.Open();
+            try
+            {
+                var result = command.;
+                return result.ToString();
+            }
+            catch (SqlException sqlex)
+            {
+                return "Some kind of issue was located in an area nearby - unable to do that" + sqlex;
+            }
+        }
+
+        [HttpGet("Customers/{country}")]
+        public string GroupCustomers(string country){
+
+            string connectionString = @"Data Source=bikestoresdb.c3raologixkl.us-east-1.rds.amazonaws.com;Initial Catalog=SampleDB;User ID=admin;Password=abcd1234";
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            string thisIsMuhQuery = "Delete form Customer where ID = @ID";
+            SqlCommand command = new SqlCommand(thisIsMuhQuery, conn);
+
+            command.Parameters.AddWithValue("@ID", int.Parse(country));
+
+            conn.Open();
+            try
+            {
+                var result = command.BeginExecuteNonQuery();
+                return result.ToString();
+            }
+            catch (SqlException sqlex)
+            {
+                return "Some kind of issue was located in an area nearby - unable to do that" + sqlex;
+            }
+        }
+
+
     }
 }
